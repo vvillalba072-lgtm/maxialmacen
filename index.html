@@ -403,8 +403,8 @@ Nuestro equipo está compuesto por personas apasionadas por la atención al clie
             const name = document.getElementById('cust-name').value;
             const method = document.getElementById('delivery-method').value;
             let msg = `¡Hola MaxiAlmacenExe! 👋​ Soy ${name}.\nQuiero hacer un pedido (${method}):\n\n`;
-            cart.forEach(i => msg += ` ${i.name} (x${i.qty}) - $${i.price * i.qty}\n`);
-            msg += `\n*💰​TOTAL: ${document.getElementById('cart-total-price').innerText}*`;
+            cart.forEach(i => msg += 🔹 ${i.name} (x${i.qty}) - $${i.price * i.qty}\n`);
+            msg += `\n💰​TOTAL: ${document.getElementById('cart-total-price').innerText}`;
             window.open(`https://api.whatsapp.com/send?phone=5491153335906&text=${encodeURIComponent(msg)}`);
             closeAll();
         }
@@ -415,6 +415,7 @@ Nuestro equipo está compuesto por personas apasionadas por la atención al clie
 </body>
 
 </html>
+
 
 
 
