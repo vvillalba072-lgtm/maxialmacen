@@ -1,4 +1,4 @@
-Ôªø<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -54,7 +54,7 @@
         .cart-inputs { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
         .cart-inputs input, .cart-inputs select { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #eee; outline: none; font-size: 14px; }
 
-        /* Animaci√≥n Bot√≥n Finalizar */
+        /* AnimaciÛn BotÛn Finalizar */
         .btn-finalizar { 
             background: var(--exito); color: #fff; border: none; width: 100%; padding: 16px; border-radius: 15px; 
             font-weight: 700; cursor: pointer; margin-top: 15px; position: relative; overflow: hidden;
@@ -88,7 +88,7 @@
         .chat-window { position: absolute; bottom: 70px; left: 0; width: 280px; background: #fff; border-radius: 20px; box-shadow: var(--shadow); display: none; flex-direction: column; overflow: hidden; }
         .chat-header { background: var(--primario); color: #fff; padding: 12px; display: flex; justify-content: space-between; }
 
-        /* --- MODAL CONFIRMACI√ìN --- */
+        /* --- MODAL CONFIRMACI”N --- */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 6000; display: none; justify-content: center; align-items: center; padding: 20px; }
         .modal-content { background: #fff; padding: 30px; border-radius: 30px; text-align: center; max-width: 400px; position: relative; }
         .trust-grid { display: flex; justify-content: space-around; margin: 25px 0; }
@@ -116,15 +116,15 @@
 
     <div class="sidebar" id="sidebar">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
-            <h3 style="color:var(--primario)">üõí Men√∫</h3>
+            <h3 style="color:var(--primario)">?? Men˙</h3>
             <i class="fas fa-times" onclick="closeAll()" style="font-size:24px; cursor:pointer"></i>
         </div>
-        <a class="sidebar-link" onclick="filterCat('almacen')">üì¶ Almac√©n</a>
-        <a class="sidebar-link" onclick="filterCat('bebidas')">ü•§ Bebidas</a>
-        <a class="sidebar-link" onclick="filterCat('limpieza')">üßº Limpieza</a>
-        <a class="sidebar-link" onclick="showPage('ofertas')">üî• Ofertas</a>
-        <a class="sidebar-link" onclick="showPage('folleto')">üìÑ Folleto</a>
-        <a class="sidebar-link" onclick="showPage('nosotros')">‚ù§Ô∏è Nosotros</a>
+        <a class="sidebar-link" onclick="filterCat('almacen')">?? AlmacÈn</a>
+        <a class="sidebar-link" onclick="filterCat('bebidas')">?? Bebidas</a>
+        <a class="sidebar-link" onclick="filterCat('limpieza')">?? Limpieza</a>
+        <a class="sidebar-link" onclick="showPage('ofertas')">?? Ofertas</a>
+        <a class="sidebar-link" onclick="showPage('folleto')">?? Folleto</a>
+        <a class="sidebar-link" onclick="showPage('nosotros')">?? Nosotros</a>
     </div>
 
     <header>
@@ -132,7 +132,7 @@
             <i class="fas fa-bars" style="font-size:22px; color:var(--primario); cursor:pointer" onclick="openSidebar()"></i>
             <div class="logo" onclick="showPage('home')"><img src="logo.jpg" alt="Logo"></div>
             <div class="search-box">
-                <input type="text" id="main-search" placeholder="¬øQu√© llevamos hoy?" onkeyup="smartSearch()">
+                <input type="text" id="main-search" placeholder="øQuÈ llevamos hoy?" onkeyup="smartSearch()">
                 <i class="fas fa-search"></i>
             </div>
             <div class="cart-trigger" onclick="toggleCart()">
@@ -143,7 +143,7 @@
         <nav class="nav-horizontal">
             <a onclick="showPage('home')">Inicio</a>
             <a onclick="showPage('ofertas')">Ofertas</a>
-            <a onclick="filterCat('almacen')">Almac√©n</a>
+            <a onclick="filterCat('almacen')">AlmacÈn</a>
             <a onclick="showPage('folleto')">Folleto</a>
             <a onclick="showPage('nosotros')">Nosotros</a>
         </nav>
@@ -151,9 +151,9 @@
 
     <div class="marce-wrapper">
         <div class="chat-window" id="marce-chat">
-            <div class="chat-header"><span>Marce Asistente üíÅ‚Äç‚ôÄÔ∏è</span><i class="fas fa-times" onclick="toggleMarce()"></i></div>
+            <div class="chat-header"><span>Marce Asistente ?????</span><i class="fas fa-times" onclick="toggleMarce()"></i></div>
             <div class="chat-body" id="chat-box" style="padding:15px; font-size:13px; max-height:200px; overflow-y:auto;">
-                <div style="background:#f0f0f0; padding:10px; border-radius:10px;">¬°Hola! Soy Marce. ¬øTe ayudo con algo? üòä</div>
+                <div style="background:#f0f0f0; padding:10px; border-radius:10px;">°Hola! Soy Marce. øTe ayudo con algo? ??</div>
             </div>
             <div style="padding:10px; border-top:1px solid #eee; display:flex; gap:5px; flex-wrap:wrap;">
                 <button onclick="botReply('horarios')" style="font-size:11px; padding:5px; border-radius:10px; border:1px solid #ddd; background:none; cursor:pointer;">Horarios</button>
@@ -161,8 +161,8 @@
             </div>
         </div>
         <div class="marce-btn" onclick="toggleMarce()">
-            <img src="asistentemujer.jpg" class="marce-avatar">
-            <div style="font-size:10px; font-weight:700;">Marce Online<br><span style="color:var(--exito)">‚óè Consultame</span></div>
+            <img src="marce.jpg" class="marce-avatar">
+            <div style="font-size:10px; font-weight:700;">Marce Online<br><span style="color:var(--exito)">? Consultame</span></div>
         </div>
     </div>
 
@@ -173,8 +173,8 @@
         <div class="cart-inputs">
             <input type="text" id="cust-name" placeholder="Tu Nombre y Apellido">
             <select id="delivery-method">
-                <option value="Delivery">üöö Env√≠o a Domicilio</option>
-                <option value="Retiro">üè™ Retiro por el Local</option>
+                <option value="Delivery">?? EnvÌo a Domicilio</option>
+                <option value="Retiro">?? Retiro por el Local</option>
             </select>
         </div>
 
@@ -191,16 +191,16 @@
         <div class="swiper swiper-burbuja">
             <div class="swiper-wrapper">
                 <div class="swiper-slide bubble-item" onclick="filterCat('almacen')">
-                    <img src="Aceite.jpg" class="bubble-img"><span>Almac√©n</span>
+                    <img src="almacen.jpg" class="bubble-img"><span>AlmacÈn</span>
                 </div>
                 <div class="swiper-slide bubble-item" onclick="filterCat('bebidas')">
-                    <img src="manaostonica.jpg" class="bubble-img"><span>Bebidas</span>
+                    <img src="bebidas.jpg" class="bubble-img"><span>Bebidas</span>
                 </div>
                 <div class="swiper-slide bubble-item" onclick="filterCat('limpieza')">
-                    <img src="aromatizantes.jpg" class="bubble-img"><span>Limpieza</span>
+                    <img src="limpieza.jpg" class="bubble-img"><span>Limpieza</span>
                 </div>
                 <div class="swiper-slide bubble-item" onclick="showPage('ofertas')">
-                    <img src="tazas.jpg" class="bubble-img"><span>Ofertas</span>
+                    <img src="ofertas.jpg" class="bubble-img"><span>Ofertas</span>
                 </div>
             </div>
         </div>
@@ -208,38 +208,38 @@
         <h3 style="margin:20px 0; font-size:20px; color:var(--primario);" id="main-grid-title">Productos Destacados</h3>
         <div class="grid" id="main-grid">
             <div class="card" data-cat="almacen">
-                <img src="arrozgallo.jpg">
-                <h4>Fideos Arroz Gallo 500g</h4>
+                <img src="fideos.jpg">
+                <h4>Fideos TallarÌn 500g</h4>
                 <span class="price">$980</span>
-                <button class="btn-add" onclick="addCart('Arroz Gallo', 980)">+ Agregar</button>
+                <button class="btn-add" onclick="addCart('Fideos TallarÌn', 980)">+ Agregar</button>
             </div>
             <div class="card" data-cat="bebidas">
-                <img src="manaoscola.png">
-                <h4>Manaos Cola 2.25L</h4>
-                <span class="price">$1.500</span>
-                <button class="btn-add" onclick="addCart('Manaos Cola 2.25L', 1500)">+ Agregar</button>
+                <img src="coca.jpg">
+                <h4>Coca Cola 2.25L</h4>
+                <span class="price">$3.100</span>
+                <button class="btn-add" onclick="addCart('Coca Cola 2.25L', 3100)">+ Agregar</button>
             </div>
         </div>
     </main>
 
     <section id="ofertas" class="page">
-        <h3 style="color:var(--primario); margin-bottom:20px;">üî• Ofertas de la Semana</h3>
+        <h3 style="color:var(--primario); margin-bottom:20px;">?? Ofertas de la Semana</h3>
         <div class="grid">
             <div class="card">
-                <img src="fiambre.png">
+                <img src="promo.jpg">
                 <h4>Pack Ahorro Familiar</h4>
                 <span class="price" style="color:var(--exito)">$5.500</span>
-                <button class="btn-add" style="background:#ff4757" onclick="celebrate(event); addCart('Pack Ahorro', 5500)">¬°APROVECHAR! üéâ</button>
+                <button class="btn-add" style="background:#ff4757" onclick="celebrate(event); addCart('Pack Ahorro', 5500)">°APROVECHAR! ??</button>
             </div>
         </div>
     </section>
 
     <section id="nosotros" class="page">
-        <h3 style="color:var(--primario); margin-bottom:15px;">Qui√©nes Somos</h3>
-        <p style="font-size:14px; line-height:1.6;">Somos MaxiAlmacenExe, el almac√©n de tu barrio con la mejor atenci√≥n de Karen, Milton Y Exe. ¬°Gracias por elegirnos!</p>
+        <h3 style="color:var(--primario); margin-bottom:15px;">QuiÈnes Somos</h3>
+        <p style="font-size:14px; line-height:1.6;">Somos MaxiAlmacenExe, el almacÈn de tu barrio con la mejor atenciÛn de Marce y los precios de Exe. °Gracias por elegirnos!</p>
         <div style="display:flex; gap:15px; margin-top:20px; justify-content:center;">
-            <div style="text-align:center"><img src="nosotrosequipo.jpg" style="width:70px; height:70px; border-radius:50%; object-fit:cover; border:2px solid var(--secundario);"><br><small>Marce</small></div>
-            <div style="text-align:center"><img src="hombrenosotros.jpg" style="width:70px; height:70px; border-radius:50%; object-fit:cover; border:2px solid var(--secundario);"><br><small>Exe</small></div>
+            <div style="text-align:center"><img src="marce.jpg" style="width:70px; height:70px; border-radius:50%; object-fit:cover; border:2px solid var(--secundario);"><br><small>Marce</small></div>
+            <div style="text-align:center"><img src="exe.jpg" style="width:70px; height:70px; border-radius:50%; object-fit:cover; border:2px solid var(--secundario);"><br><small>Exe</small></div>
         </div>
     </section>
 
@@ -247,8 +247,8 @@
         <div class="footer-grid">
             <div class="footer-info">
                 <h4 class="footer-title">MaxiAlmacenExe</h4>
-                <p><i class="fas fa-map-marker-alt"></i> Argentina 4929,La Tablada</p>
-                <p><i class="fas fa-clock"></i> Lun a Sab: 09:00 - 23:00</p>
+                <p><i class="fas fa-map-marker-alt"></i> Calle Falsa 123, San Justo</p>
+                <p><i class="fas fa-clock"></i> Lun a Sab: 09:00 - 20:30</p>
                 <p><i class="fas fa-phone"></i> +54 9 11 1234-5678</p>
                 <div class="social-links">
                     <a href="#"><i class="fab fa-facebook"></i></a>
@@ -262,23 +262,23 @@
                 <p><i class="fas fa-check"></i> Efectivo</p>
                 <p><i class="fas fa-check"></i> Mercado Pago</p>
                 <p><i class="fas fa-check"></i> Cuenta DNI</p>
-                <p><i class="fas fa-check"></i> Tarjetas D√©bito/Cr√©dito</p>
+                <p><i class="fas fa-check"></i> Tarjetas DÈbito/CrÈdito</p>
             </div>
 
             <div class="footer-info">
-                <h4 class="footer-title">Nuestra Ubicaci√≥n</h4>
+                <h4 class="footer-title">Nuestra UbicaciÛn</h4>
                 <iframe class="map-footer" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3281.8546194488313!2d-58.558348!3d-34.664448!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDM5JzUyLjAiUyA1OMKwMzMnMzAuMSJX!5e0!3m2!1ses!2sar!4v1630000000000!5m2!1ses!2sar" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
         <div class="footer-bottom">
-            Hecho con ‚ù§Ô∏è para la comunidad - 2026
+            Hecho con ?? para la comunidad - 2024
         </div>
     </footer>
 
     <div class="modal" id="modal-confirm">
         <div class="modal-content">
-            <h2 style="color:var(--primario);">¬°Todo Listo!</h2>
-            <p style="font-size:14px; margin-top:10px; color:#666;">Tu pedido est√° preparado. Al confirmar, te enviaremos a WhatsApp para coordinar la entrega con Marce.</p>
+            <h2 style="color:var(--primario);">°Todo Listo!</h2>
+            <p style="font-size:14px; margin-top:10px; color:#666;">Tu pedido est· preparado. Al confirmar, te enviaremos a WhatsApp para coordinar la entrega con Marce.</p>
             
             <div class="trust-grid">
                 <div class="trust-item"><i class="fas fa-award"></i><p>CALIDAD</p></div>
@@ -295,7 +295,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        // --- NAVEGACI√ìN ---
+        // --- NAVEGACI”N ---
         function showPage(id) {
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             document.getElementById(id).classList.add('active');
@@ -379,7 +379,7 @@
         // --- MARCE ---
         function botReply(type) {
             const box = document.getElementById('chat-box');
-            let m = type === 'horarios' ? "Abrimos de Lunes a S√°bados de 9 a 20:30hs. üòä" : "Aceptamos Efectivo, Mercado Pago y Cuenta DNI. üí≥";
+            let m = type === 'horarios' ? "Abrimos de Lunes a S·bados de 9 a 20:30hs. ??" : "Aceptamos Efectivo, Mercado Pago y Cuenta DNI. ??";
             box.innerHTML += `<div style="background:#f0f0f0; padding:10px; border-radius:10px; margin-top:10px;">${m}</div>`;
             box.scrollTop = box.scrollHeight;
         }
@@ -390,16 +390,16 @@
         }
 
         function openConfirm() {
-            if(cart.length === 0) return alert("¬°El carrito est√° vac√≠o!");
-            if(!document.getElementById('cust-name').value) return alert("Por favor, pon√© tu nombre.");
+            if(cart.length === 0) return alert("°El carrito est· vacÌo!");
+            if(!document.getElementById('cust-name').value) return alert("Por favor, ponÈ tu nombre.");
             document.getElementById('modal-confirm').style.display = 'flex';
         }
 
         function sendToWA() {
             const name = document.getElementById('cust-name').value;
             const method = document.getElementById('delivery-method').value;
-            let msg = `¬°Hola MaxiAlmacenExe! üëã Soy ${name}.\nEste es mi pedido (${method}):\n\n`;
-            cart.forEach(i => msg += `‚Ä¢ ${i.name} (x${i.qty}) - $${i.price * i.qty}\n`);
+            let msg = `°Hola MaxiAlmacenExe! ?? Soy ${name}.\nEste es mi pedido (${method}):\n\n`;
+            cart.forEach(i => msg += `ï ${i.name} (x${i.qty}) - $${i.price * i.qty}\n`);
             msg += `\n*TOTAL: ${document.getElementById('cart-total-price').innerText}*`;
             window.open(`https://api.whatsapp.com/send?phone=54911XXXXXXXX&text=${encodeURIComponent(msg)}`);
             closeAll();
