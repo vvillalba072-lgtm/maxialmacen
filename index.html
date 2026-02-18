@@ -1,0 +1,411 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MaxiAlmacenExe | Web Oficial Pro</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root { 
+            --primario: #8B0000; 
+            --secundario: #e67e22; 
+            --exito: #25d366;
+            --fondo: #f8fafc;
+            --blanco: #ffffff;
+            --shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: var(--fondo); color: #333; overflow-x: hidden; }
+
+        /* --- HEADER --- */
+        header { background: var(--blanco); position: sticky; top: 0; z-index: 2000; box-shadow: var(--shadow); }
+        .header-main { padding: 12px 5%; display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+        .logo img { height: 45px; cursor: pointer; }
+        .search-box { flex-grow: 1; position: relative; max-width: 400px; }
+        .search-box input { width: 100%; padding: 10px 40px 10px 18px; border-radius: 25px; border: 2px solid #eee; outline: none; }
+        .search-box i { position: absolute; right: 15px; top: 13px; color: var(--primario); }
+        .cart-trigger { position: relative; cursor: pointer; font-size: 24px; color: var(--primario); }
+        .cart-badge { position: absolute; top: -8px; right: -10px; background: var(--secundario); color: #fff; font-size: 11px; padding: 2px 7px; border-radius: 50%; font-weight: bold; }
+
+        .nav-horizontal { background: var(--primario); display: flex; overflow-x: auto; padding: 10px; gap: 20px; justify-content: center; }
+        .nav-horizontal a { color: #fff; text-decoration: none; font-size: 12px; font-weight: 600; white-space: nowrap; cursor: pointer; text-transform: uppercase; }
+
+        /* --- SIDEBAR --- */
+        .sidebar { position: fixed; left: -320px; top: 0; width: 300px; height: 100%; background: var(--blanco); z-index: 4000; transition: 0.4s; padding: 30px; }
+        .sidebar.active { left: 0; }
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: none; z-index: 3500; }
+        .sidebar-link { display: block; padding: 15px 0; color: #444; text-decoration: none; font-weight: 500; cursor: pointer; border-bottom: 1px solid #f9f9f9; }
+
+        /* --- CARRITO MEJORADO --- */
+        .cart-card { position: fixed; top: 90px; right: -400px; width: 350px; background: #fff; z-index: 3800; border-radius: 25px; padding: 25px; box-shadow: var(--shadow); transition: 0.5s; max-height: 85vh; overflow-y: auto; }
+        .cart-card.active { right: 20px; }
+        .cart-item { display: flex; flex-direction: column; padding: 12px 0; border-bottom: 1px solid #eee; gap: 8px; }
+        .cart-item-info { display: flex; justify-content: space-between; align-items: center; }
+        .cart-controls { display: flex; align-items: center; gap: 10px; }
+        .btn-qty { width: 25px; height: 25px; border-radius: 50%; border: 1px solid #ddd; background: #f9f9f9; cursor: pointer; font-weight: bold; }
+        .btn-del { color: #ff4757; cursor: pointer; margin-left: 10px; font-size: 14px; }
+        
+        .cart-inputs { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .cart-inputs input, .cart-inputs select { width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #eee; outline: none; font-size: 14px; }
+
+        /* Animación Botón Finalizar */
+        .btn-finalizar { 
+            background: var(--exito); color: #fff; border: none; width: 100%; padding: 16px; border-radius: 15px; 
+            font-weight: 700; cursor: pointer; margin-top: 15px; position: relative; overflow: hidden;
+            animation: pulse-green 2s infinite;
+        }
+        @keyframes pulse-green {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); box-shadow: 0 0 20px rgba(37, 211, 102, 0.4); }
+            100% { transform: scale(1); }
+        }
+
+        /* --- SWIPER BURBUJA --- */
+        .swiper-burbuja { padding: 20px 0; background: #fff; }
+        .bubble-item { text-align: center; }
+        .bubble-img { width: 75px; height: 75px; border-radius: 50%; object-fit: cover; border: 3px solid var(--secundario); box-shadow: var(--shadow); margin: 0 auto 8px; }
+        .bubble-item span { font-size: 10px; font-weight: 700; color: var(--primario); text-transform: uppercase; }
+
+        /* --- PRODUCTOS --- */
+        .page { display: none; padding: 20px 5%; animation: fadeIn 0.4s; }
+        .page.active { display: block; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(155px, 1fr)); gap: 15px; }
+        .card { background: #fff; border-radius: 20px; padding: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.04); border: 1px solid #f0f0f0; }
+        .card img { width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 15px; }
+        .price { font-size: 18px; font-weight: 700; color: var(--primario); display: block; margin: 8px 0; }
+        .btn-add { background: var(--primario); color: #fff; border: none; width: 100%; padding: 10px; border-radius: 10px; font-weight: 600; cursor: pointer; }
+
+        /* --- MARCE CHAT --- */
+        .marce-wrapper { position: fixed; bottom: 20px; left: 20px; z-index: 5000; }
+        .marce-btn { display: flex; align-items: center; gap: 10px; cursor: pointer; background: #fff; padding: 5px 15px 5px 5px; border-radius: 40px; box-shadow: var(--shadow); }
+        .marce-avatar { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid var(--secundario); }
+        .chat-window { position: absolute; bottom: 70px; left: 0; width: 280px; background: #fff; border-radius: 20px; box-shadow: var(--shadow); display: none; flex-direction: column; overflow: hidden; }
+        .chat-header { background: var(--primario); color: #fff; padding: 12px; display: flex; justify-content: space-between; }
+
+        /* --- MODAL CONFIRMACIÓN --- */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 6000; display: none; justify-content: center; align-items: center; padding: 20px; }
+        .modal-content { background: #fff; padding: 30px; border-radius: 30px; text-align: center; max-width: 400px; position: relative; }
+        .trust-grid { display: flex; justify-content: space-around; margin: 25px 0; }
+        .trust-item i { font-size: 28px; color: var(--secundario); margin-bottom: 8px; }
+        .trust-item p { font-size: 11px; font-weight: 600; }
+
+        /* --- FOOTER COMPLETO --- */
+        footer { background: #1a1a1a; color: #fff; padding: 40px 5% 20px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; text-align: left; }
+        .footer-title { color: var(--secundario); font-size: 16px; font-weight: 700; margin-bottom: 15px; border-left: 3px solid var(--secundario); padding-left: 10px; }
+        .map-footer { width: 100%; height: 150px; border-radius: 15px; border: none; margin-bottom: 15px; }
+        .footer-info p { font-size: 13px; margin-bottom: 8px; color: #ccc; }
+        .footer-info i { width: 20px; color: var(--secundario); }
+        .social-links { display: flex; gap: 15px; margin-top: 15px; }
+        .social-links a { color: #fff; font-size: 20px; transition: 0.3s; }
+        .social-links a:hover { color: var(--secundario); }
+        .footer-bottom { border-top: 1px solid #333; margin-top: 30px; padding-top: 20px; text-align: center; font-size: 12px; color: #777; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar-overlay" id="overlay" onclick="closeAll()"></div>
+
+    <div class="sidebar" id="sidebar">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+            <h3 style="color:var(--primario)">🛒 Menú</h3>
+            <i class="fas fa-times" onclick="closeAll()" style="font-size:24px; cursor:pointer"></i>
+        </div>
+        <a class="sidebar-link" onclick="filterCat('almacen')">📦 Almacén</a>
+        <a class="sidebar-link" onclick="filterCat('bebidas')">🥤 Bebidas</a>
+        <a class="sidebar-link" onclick="filterCat('limpieza')">🧼 Limpieza</a>
+        <a class="sidebar-link" onclick="showPage('ofertas')">🔥 Ofertas</a>
+        <a class="sidebar-link" onclick="showPage('folleto')">📄 Folleto</a>
+        <a class="sidebar-link" onclick="showPage('nosotros')">❤️ Nosotros</a>
+    </div>
+
+    <header>
+        <div class="header-main">
+            <i class="fas fa-bars" style="font-size:22px; color:var(--primario); cursor:pointer" onclick="openSidebar()"></i>
+            <div class="logo" onclick="showPage('home')"><img src="logo.jpg" alt="Logo"></div>
+            <div class="search-box">
+                <input type="text" id="main-search" placeholder="¿Qué llevamos hoy?" onkeyup="smartSearch()">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="cart-trigger" onclick="toggleCart()">
+                <i class="fas fa-shopping-basket"></i>
+                <span class="cart-badge" id="cart-count">0</span>
+            </div>
+        </div>
+        <nav class="nav-horizontal">
+            <a onclick="showPage('home')">Inicio</a>
+            <a onclick="showPage('ofertas')">Ofertas</a>
+            <a onclick="filterCat('almacen')">Almacén</a>
+            <a onclick="showPage('folleto')">Folleto</a>
+            <a onclick="showPage('nosotros')">Nosotros</a>
+        </nav>
+    </header>
+
+    <div class="marce-wrapper">
+        <div class="chat-window" id="marce-chat">
+            <div class="chat-header"><span>Marce Asistente 💁‍♀️</span><i class="fas fa-times" onclick="toggleMarce()"></i></div>
+            <div class="chat-body" id="chat-box" style="padding:15px; font-size:13px; max-height:200px; overflow-y:auto;">
+                <div style="background:#f0f0f0; padding:10px; border-radius:10px;">¡Hola! Soy Marce. ¿Te ayudo con algo? 😊</div>
+            </div>
+            <div style="padding:10px; border-top:1px solid #eee; display:flex; gap:5px; flex-wrap:wrap;">
+                <button onclick="botReply('horarios')" style="font-size:11px; padding:5px; border-radius:10px; border:1px solid #ddd; background:none; cursor:pointer;">Horarios</button>
+                <button onclick="botReply('pagos')" style="font-size:11px; padding:5px; border-radius:10px; border:1px solid #ddd; background:none; cursor:pointer;">Pagos</button>
+            </div>
+        </div>
+        <div class="marce-btn" onclick="toggleMarce()">
+            <img src="asistentemujer.jpg" class="marce-avatar">
+            <div style="font-size:10px; font-weight:700;">Marce Online<br><span style="color:var(--exito)">● Consultame</span></div>
+        </div>
+    </div>
+
+    <div class="cart-card" id="cart-card">
+        <h3 style="color:var(--primario); border-bottom: 2px solid #f9f9f9; padding-bottom:10px;">Tu Pedido</h3>
+        <div id="cart-items-list"></div>
+        
+        <div class="cart-inputs">
+            <input type="text" id="cust-name" placeholder="Tu Nombre y Apellido">
+            <select id="delivery-method">
+                <option value="Delivery">🚚 Envío a Domicilio</option>
+                <option value="Retiro">🏪 Retiro por el Local</option>
+            </select>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; font-weight:700; font-size:22px; margin:20px 0;">
+            <span>Total:</span> <span id="cart-total-price" style="color:var(--primario)">$0</span>
+        </div>
+        
+        <button class="btn-finalizar" onclick="openConfirm()">
+            FINALIZAR PEDIDO <i class="fab fa-whatsapp"></i>
+        </button>
+    </div>
+
+    <main id="home" class="page active">
+        <div class="swiper swiper-burbuja">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide bubble-item" onclick="filterCat('almacen')">
+                    <img src="Aceite.jpg" class="bubble-img"><span>Almacén</span>
+                </div>
+                <div class="swiper-slide bubble-item" onclick="filterCat('bebidas')">
+                    <img src="manaostonica.jpg" class="bubble-img"><span>Bebidas</span>
+                </div>
+                <div class="swiper-slide bubble-item" onclick="filterCat('limpieza')">
+                    <img src="aromatizantes.jpg" class="bubble-img"><span>Limpieza</span>
+                </div>
+                <div class="swiper-slide bubble-item" onclick="showPage('ofertas')">
+                    <img src="tazas.jpg" class="bubble-img"><span>Ofertas</span>
+                </div>
+            </div>
+        </div>
+
+        <h3 style="margin:20px 0; font-size:20px; color:var(--primario);" id="main-grid-title">Productos Destacados</h3>
+        <div class="grid" id="main-grid">
+            <div class="card" data-cat="almacen">
+                <img src="arrozgallo.jpg">
+                <h4>Fideos Arroz Gallo 500g</h4>
+                <span class="price">$980</span>
+                <button class="btn-add" onclick="addCart('Arroz Gallo', 980)">+ Agregar</button>
+            </div>
+            <div class="card" data-cat="bebidas">
+                <img src="manaoscola.png">
+                <h4>Manaos Cola 2.25L</h4>
+                <span class="price">$1.500</span>
+                <button class="btn-add" onclick="addCart('Manaos Cola 2.25L', 1500)">+ Agregar</button>
+            </div>
+        </div>
+    </main>
+
+    <section id="ofertas" class="page">
+        <h3 style="color:var(--primario); margin-bottom:20px;">🔥 Ofertas de la Semana</h3>
+        <div class="grid">
+            <div class="card">
+                <img src="fiambre.png">
+                <h4>Pack Ahorro Familiar</h4>
+                <span class="price" style="color:var(--exito)">$5.500</span>
+                <button class="btn-add" style="background:#ff4757" onclick="celebrate(event); addCart('Pack Ahorro', 5500)">¡APROVECHAR! 🎉</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="nosotros" class="page">
+        <h3 style="color:var(--primario); margin-bottom:15px;">Quiénes Somos</h3>
+        <p style="font-size:14px; line-height:1.6;">Somos MaxiAlmacenExe, el almacén de tu barrio con la mejor atención de Karen, Milton Y Exe. ¡Gracias por elegirnos!</p>
+        <div style="display:flex; gap:15px; margin-top:20px; justify-content:center;">
+            <div style="text-align:center"><img src="nosotrosequipo.jpg" style="width:70px; height:70px; border-radius:50%; object-fit:cover; border:2px solid var(--secundario);"><br><small>Marce</small></div>
+            <div style="text-align:center"><img src="hombrenosotros.jpg" style="width:70px; height:70px; border-radius:50%; object-fit:cover; border:2px solid var(--secundario);"><br><small>Exe</small></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-info">
+                <h4 class="footer-title">MaxiAlmacenExe</h4>
+                <p><i class="fas fa-map-marker-alt"></i> Argentina 4929,La Tablada</p>
+                <p><i class="fas fa-clock"></i> Lun a Sab: 09:00 - 23:00</p>
+                <p><i class="fas fa-phone"></i> +54 9 11 1234-5678</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-info">
+                <h4 class="footer-title">Medios de Pago</h4>
+                <p><i class="fas fa-check"></i> Efectivo</p>
+                <p><i class="fas fa-check"></i> Mercado Pago</p>
+                <p><i class="fas fa-check"></i> Cuenta DNI</p>
+                <p><i class="fas fa-check"></i> Tarjetas Débito/Crédito</p>
+            </div>
+
+            <div class="footer-info">
+                <h4 class="footer-title">Nuestra Ubicación</h4>
+                <iframe class="map-footer" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3281.8546194488313!2d-58.558348!3d-34.664448!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDM5JzUyLjAiUyA1OMKwMzMnMzAuMSJX!5e0!3m2!1ses!2sar!4v1630000000000!5m2!1ses!2sar" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            Hecho con ❤️ para la comunidad - 2026
+        </div>
+    </footer>
+
+    <div class="modal" id="modal-confirm">
+        <div class="modal-content">
+            <h2 style="color:var(--primario);">¡Todo Listo!</h2>
+            <p style="font-size:14px; margin-top:10px; color:#666;">Tu pedido está preparado. Al confirmar, te enviaremos a WhatsApp para coordinar la entrega con Marce.</p>
+            
+            <div class="trust-grid">
+                <div class="trust-item"><i class="fas fa-award"></i><p>CALIDAD</p></div>
+                <div class="trust-item"><i class="fas fa-shield-alt"></i><p>CONFIANZA</p></div>
+                <div class="trust-item"><i class="fas fa-heart"></i><p>AMABILIDAD</p></div>
+            </div>
+
+            <button class="btn-finalizar" style="animation:none;" onclick="sendToWA()">
+                CONFIRMAR Y ENVIAR <i class="fab fa-whatsapp"></i>
+            </button>
+            <p onclick="closeAll()" style="margin-top:15px; font-size:12px; text-decoration:underline; cursor:pointer;">Seguir comprando</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        // --- NAVEGACIÓN ---
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo(0,0);
+            closeAll();
+        }
+
+        function filterCat(cat) {
+            showPage('home');
+            document.getElementById('main-grid-title').innerText = "Pasillo: " + cat.toUpperCase();
+            document.querySelectorAll('#main-grid .card').forEach(card => {
+                card.style.display = (card.getAttribute('data-cat') === cat) ? 'block' : 'none';
+            });
+        }
+
+        function smartSearch() {
+            const q = document.getElementById('main-search').value.toLowerCase();
+            if(q.length > 0) {
+                showPage('home');
+                document.querySelectorAll('#main-grid .card').forEach(card => {
+                    const name = card.querySelector('h4').innerText.toLowerCase();
+                    card.style.display = name.includes(q) ? 'block' : 'none';
+                });
+            }
+        }
+
+        // --- INTERFAZ ---
+        function openSidebar() { document.getElementById('sidebar').classList.add('active'); document.getElementById('overlay').style.display='block'; }
+        function toggleCart() { document.getElementById('cart-card').classList.toggle('active'); document.getElementById('overlay').style.display='block'; }
+        function toggleMarce() { const c = document.getElementById('marce-chat'); c.style.display = (c.style.display==='flex')?'none':'flex'; }
+        function closeAll() {
+            document.getElementById('sidebar').classList.remove('active');
+            document.getElementById('cart-card').classList.remove('active');
+            document.getElementById('overlay').style.display='none';
+            document.getElementById('modal-confirm').style.display='none';
+        }
+
+        // --- CARRITO ---
+        let cart = [];
+        function addCart(n, p) {
+            const item = cart.find(i => i.name === n);
+            if(item) item.qty++; else cart.push({name:n, price:p, qty:1});
+            updateUI();
+        }
+
+        function changeQty(idx, delta) {
+            cart[idx].qty += delta;
+            if(cart[idx].qty <= 0) cart.splice(idx, 1);
+            updateUI();
+        }
+
+        function removeItem(idx) {
+            cart.splice(idx, 1);
+            updateUI();
+        }
+
+        function updateUI() {
+            const list = document.getElementById('cart-items-list');
+            let t = 0; let c = 0;
+            list.innerHTML = "";
+            cart.forEach((i, idx) => {
+                t += i.price * i.qty; c += i.qty;
+                list.innerHTML += `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <span style="font-size:14px; font-weight:600;">${i.name}</span>
+                            <span style="font-weight:700;">$${i.price * i.qty}</span>
+                        </div>
+                        <div class="cart-controls">
+                            <button class="btn-qty" onclick="changeQty(${idx},-1)">-</button>
+                            <span style="font-size:14px;">${i.qty}</span>
+                            <button class="btn-qty" onclick="changeQty(${idx},1)">+</button>
+                            <i class="fas fa-trash-alt btn-del" onclick="removeItem(${idx})"></i>
+                        </div>
+                    </div>`;
+            });
+            document.getElementById('cart-total-price').innerText = '$' + t;
+            document.getElementById('cart-count').innerText = c;
+        }
+
+        // --- MARCE ---
+        function botReply(type) {
+            const box = document.getElementById('chat-box');
+            let m = type === 'horarios' ? "Abrimos de Lunes a Sábados de 9 a 20:30hs. 😊" : "Aceptamos Efectivo, Mercado Pago y Cuenta DNI. 💳";
+            box.innerHTML += `<div style="background:#f0f0f0; padding:10px; border-radius:10px; margin-top:10px;">${m}</div>`;
+            box.scrollTop = box.scrollHeight;
+        }
+
+        // --- FINALIZAR ---
+        function celebrate(e) {
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 }, colors: ['#8B0000', '#e67e22', '#25d366'] });
+        }
+
+        function openConfirm() {
+            if(cart.length === 0) return alert("¡El carrito está vacío!");
+            if(!document.getElementById('cust-name').value) return alert("Por favor, poné tu nombre.");
+            document.getElementById('modal-confirm').style.display = 'flex';
+        }
+
+        function sendToWA() {
+            const name = document.getElementById('cust-name').value;
+            const method = document.getElementById('delivery-method').value;
+            let msg = `¡Hola MaxiAlmacenExe! 👋 Soy ${name}.\nEste es mi pedido (${method}):\n\n`;
+            cart.forEach(i => msg += `• ${i.name} (x${i.qty}) - $${i.price * i.qty}\n`);
+            msg += `\n*TOTAL: ${document.getElementById('cart-total-price').innerText}*`;
+            window.open(`https://api.whatsapp.com/send?phone=54911XXXXXXXX&text=${encodeURIComponent(msg)}`);
+            closeAll();
+        }
+
+        new Swiper(".swiper-burbuja", { slidesPerView: 3.5, spaceBetween: 10 });
+    </script>
+</body>
+</html>
